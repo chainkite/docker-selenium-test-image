@@ -13,18 +13,22 @@ RUN java -jar /opt/selenium/selenium-server-standalone.jar -role hub -port 4444 
 
 # register chrome node
 
-ARG CHROME_VERSION="google-chrome-stable"
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install \
-    ${CHROME_VERSION:-google-chrome-stable} \
-  && rm /etc/apt/sources.list.d/google-chrome.list \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+# ARG CHROME_VERSION="google-chrome-stable_current_amd64"
+# RUN wget --no-verbose -O /tmp/google-chrome.deb https://dl.google.com/linux/direct/$CHROME_VERSION.deb \
+#   && dpkg -i /tmp/google-chrome.deb
+COPY google-chrome-stable_current_amd64.deb /tmp/google-chrome.deb
+RUN dpkg -i /tmp/google-chrome.deb || apt-get install -f --assume-yes && dpkg -i /tmp/google-chrome.deb
+# ARG CHROME_DRIVER_VERSION=2.28
+# RUN wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
+#   && rm -rf /opt/selenium/chromedriver \
+#   && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
+#   && rm /tmp/chromedriver_linux64.zip \
+#   && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION \
+#   && chmod 755 /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION \
+#   && ln -fs /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION /usr/bin/chromedriver
 
-ARG CHROME_DRIVER_VERSION=2.27
-RUN wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
-  && rm -rf /opt/selenium/chromedriver \
+COPY chromedriver_linux64.zip /tmp/chromedriver_linux64.zip
+RUN rm -rf /opt/selenium/chromedriver \
   && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
   && rm /tmp/chromedriver_linux64.zip \
   && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION \
