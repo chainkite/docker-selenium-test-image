@@ -1,13 +1,7 @@
 FROM selenium/standalone-chrome
 MAINTAINER wuxukun 
 
-
-
-RUN sudo apt-get update
-RUN sudo apt-get install python-pip wget --assume-yes
-RUN sudo pip install --upgrade pip
-RUN sudo pip install update
-RUN sudo pip install requests selenium base BeautifulSoup html2text
+USER root
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata
@@ -16,6 +10,14 @@ ENV LANG=zh_CN.UTF-8
 RUN sed -i -e "s/# $LANG.*/$LANG UTF-8/" /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=$LANG
+
+RUN apt-get update
+RUN apt-get install python-pip wget --assume-yes
+RUN pip install --upgrade pip
+RUN pip install update
+RUN pip install requests selenium base BeautifulSoup html2text
+
+USER seluser
 
 # RUN apt-get update
 # RUN apt-get install python-pip wget --assume-yes
