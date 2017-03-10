@@ -7,7 +7,7 @@ RUN sudo apt-get update
 RUN sudo apt-get install python-pip wget --assume-yes
 RUN sudo pip install --upgrade pip
 RUN sudo pip install update
-RUN sudo pip install selenium base BeautifulSoup html2text
+RUN sudo pip install requests selenium base BeautifulSoup html2text
 
 
 
