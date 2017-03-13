@@ -4,6 +4,7 @@ MAINTAINER wuxukun
 USER root
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
     
 ENV LANG=zh_CN.UTF-8
