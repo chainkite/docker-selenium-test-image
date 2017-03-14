@@ -3,6 +3,8 @@ MAINTAINER wuxukun
 
 USER root
 
+COPY selenium-server-standalone-2.53.0.jar /opt/selenium/selenium-server-standalone.jar
+
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
