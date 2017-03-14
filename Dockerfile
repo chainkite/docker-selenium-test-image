@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome
+FROM selenium/standalone-chrome:2.53.0
 MAINTAINER wuxukun 
 
 USER root
