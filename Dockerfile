@@ -1,9 +1,7 @@
-FROM selenium/standalone-chrome:2.53.0
+FROM selenium/standalone-chrome:3.1.0
 MAINTAINER wuxukun 
 
 USER root
-
-COPY selenium-server-standalone-2.53.0.jar /opt/selenium/selenium-server-standalone.jar
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime && \
@@ -19,6 +17,12 @@ RUN apt-get install python-pip wget --assume-yes
 RUN pip install --upgrade pip
 RUN pip install update
 RUN pip install requests selenium base BeautifulSoup html2text
+
+COPY selenium-server-standalone-3.3.1.jar /opt/selenium/selenium-server-standalone.jar
+RUN rm -rf /opt/selenium/chromedriver-2.23
+COPY chromedriver /opt/selenium/chromedriver-2.24
+RUN ln -fs /opt/selenium/chromedriver-2.24 /usr/bin/chromedriver
+
 
 USER seluser
 
